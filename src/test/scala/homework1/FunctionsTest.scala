@@ -98,24 +98,24 @@ class FunctionsTest extends AnyFlatSpec with Matchers {
   }
 
   it should "produce an empty list if n is not 0 and the list is empty" in {
-    combinations(List(), 1) shouldBe List()
-    combinations(List(), 2) shouldBe List()
-    combinations(List(), 10) shouldBe List()
+    toSetDeep(combinations(List(), 1)) shouldBe Set.empty
+    toSetDeep(combinations(List(), 2)) shouldBe Set.empty
+    toSetDeep(combinations(List(), 10)) shouldBe Set.empty
   }
 
   it should "produce a single element lists for each original element in the list if n is 1" in {
-    combinations(List(1), 1) shouldBe List(List(1))
-    combinations(List(1, 2, 3), 1) shouldBe List(List(1), List(2), List(3))
+    toSetDeep(combinations(List(1), 1)) shouldBe Set(Set(1))
+    toSetDeep(combinations(List(1, 2, 3), 1)) shouldBe Set(Set(1), Set(2), Set(3))
   }
 
   it should "produce an empty list if n is bigger than the size of the list" in {
-    combinations(List(1, 2), 3) shouldBe List()
-    combinations(List(1, 2, 3), 4) shouldBe List()
+    toSetDeep(combinations(List(1, 2), 3)) shouldBe Set()
+    toSetDeep(combinations(List(1, 2, 3), 4)) shouldBe Set()
   }
 
   it should "produce a single combination if n equals size of the list" in {
-    combinations(List(42), 1) shouldBe List(List(42))
-    combinations(List(3, 2, 1), 3) shouldBe List(List(3, 2, 1))
+    toSetDeep(combinations(List(42), 1)) shouldBe Set(Set(42))
+    toSetDeep(combinations(List(3, 2, 1), 3)) shouldBe Set(Set(3, 2, 1))
   }
 
   type Graph = Map[Int, List[Int]]
