@@ -59,9 +59,9 @@ class FunctionsTest extends AnyFlatSpec with Matchers {
   }
 
   it should "produce an empty list if a or b is empty" in {
-    zipMap(List.empty, List(1, 2, 3))(_ * _) shouldBe List.empty
-    zipMap(List(1, 2, 3), List.empty)(_ * _) shouldBe List.empty
-    zipMap(List.empty[Int], List.empty)(_ * _) shouldBe List.empty
+    zipMap(List.empty[Int], List(1, 2, 3))(_ * _) shouldBe List.empty
+    zipMap(List(1, 2, 3), List.empty[Int])(_ * _) shouldBe List.empty
+    zipMap(List.empty[Int], List.empty[Int])(_ * _) shouldBe List.empty
   }
 
   "countCoinChangeVariants" should "count the ways to give a change" in {
