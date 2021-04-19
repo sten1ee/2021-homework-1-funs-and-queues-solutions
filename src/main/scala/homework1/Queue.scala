@@ -1,6 +1,6 @@
 package homework1
 
-class Queue[A](front: List[A], back: List[A]) extends Iterable[A] {
+class Queue[A] private (front: List[A], back: List[A]) extends Iterable[A] {
   def peek: A =
     if (isEmpty) throw new NoSuchElementException
     else if (front.isEmpty) back.last
