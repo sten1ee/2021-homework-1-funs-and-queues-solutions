@@ -2,8 +2,7 @@ package homework1
 
 class Queue[A] private (front: List[A], back: List[A]) extends Iterable[A] {
   def peek: A =
-    if (isEmpty) throw new NoSuchElementException
-    else if (front.isEmpty) back.last
+    if (front.isEmpty) back.last
     else front.head
 
   def push(a: A): Queue[A] = new Queue(front, a :: back)
