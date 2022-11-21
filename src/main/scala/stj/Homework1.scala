@@ -70,7 +70,7 @@ object Homework1 extends App {
 
 
   /** Queue */
-  abstract class Queue[+T](val size: Int) {
+  abstract class Queue[+T](/*override*/ val size: Int) /* extends Iterable[T] */ {
     def peek: T
 
     def push[S>:T](a: S): Queue[S]
@@ -78,6 +78,15 @@ object Homework1 extends App {
     def pop: Queue[T]
 
     def isEmpty: Boolean
+    /*
+        def iterator: Iterator[T] = {
+          new Iterator[T] {
+            override def hasNext: Boolean = ???
+
+            override def next(): T = ???
+          }
+        }
+    */
   }
 
   /** case EmptyQueue */
@@ -122,4 +131,24 @@ object Homework1 extends App {
     println(q.peek)
     q = q.pop
   }
+
+  def bfsTraversal_imperativeStyle(neighbours: Int => List[Int])(start: Int, end: Int): Queue[Int] = {
+    var q = Queue(start)
+    if (start != end) {
+      val enquedNodes = scala.collection.mutable.Set(start)
+      while (!q.isEmpty) {
+        val node = q.peek
+        for (nextNode <- neighbours(node)) {
+          if (!enquedNodes.contains(nextNode)) {
+            q = q.push(nextNode)
+            enquedNodes += nextNode
+            if (nextNode == end)
+              return q
+          }
+        }
+      }
+    }
+    q
+  }
+
 }
