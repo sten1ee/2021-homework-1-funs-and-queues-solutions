@@ -155,18 +155,19 @@ object Homework1 extends App {
   }
 
   def bfsTraversal_functionalStyle(neighbours: Int => List[Int])(start: Int, end: Int): Queue[Int] = {
-    def bfs(workQ: Queue[Int], resultQ: Queue[Int], visited: Set[Int]): Queue[Int] = {
+    def bfs(workQ: Queue[Int], resultQ: Queue[Int], enquedNodes: Set[Int]): Queue[Int] = {
       if (workQ.isEmpty)
         resultQ
       else {
         val current = workQ.peek
+        val workQ1 = workQ.pop
         val resultQ1 = resultQ.push(current)
         if (current == end)
           resultQ1
         else {
-          val neibsToVisit = neighbours(current).filterNot(visited)
-          val updatedWorkQ = neibsToVisit.foldLeft(workQ)(_ push _)
-          bfs(updatedWorkQ, resultQ1, visited + current)
+          val neibsToEnque = neighbours(current).filterNot(enquedNodes)
+          val workQ2 = neibsToEnque.foldLeft(workQ1)(_ push _)
+          bfs(workQ2, resultQ1, enquedNodes ++ neibsToEnque)
         }
       }
     }
