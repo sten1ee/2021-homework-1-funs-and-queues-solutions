@@ -154,6 +154,26 @@ object Homework1 extends App {
     resultQ
   }
 
+  def bfsTraversal_functionalStyle(neighbours: Int => List[Int])(start: Int, end: Int): Queue[Int] = {
+    def bfs(workQ: Queue[Int], resultQ: Queue[Int], visited: Set[Int]): Queue[Int] = {
+      if (workQ.isEmpty)
+        resultQ
+      else {
+        val current = workQ.peek
+        val resultQ1 = resultQ.push(current)
+        if (current == end)
+          resultQ1
+        else {
+          val neibsToVisit = neighbours(current).filterNot(visited)
+          val updatedWorkQ = neibsToVisit.foldLeft(workQ)(_ push _)
+          bfs(updatedWorkQ, resultQ1, visited + current)
+        }
+      }
+    }
+
+    bfs(Queue(start), Queue.empty, Set(start))
+  }
+
   def graph1_neighboursOf(node: Int): List[Int] = node match {
     case 1 => List(2, 5, 8)
     case 2 => List(1, 3, 6)
@@ -164,17 +184,22 @@ object Homework1 extends App {
     case 8 => List(9)
   }
 
-  var pathQ = bfsTraversal_imperativeStyle(graph1_neighboursOf)(1, 6)
-  println("Path from 1 to 6:")
-  while (!pathQ.isEmpty) {
-    println(pathQ.peek)
-    pathQ = pathQ.pop
+  def traceBFS(title: String, bfs: (Int, Int) => Queue[Int], start: Int, end: Int) = {
+    val resultPath = bfs(start, end)
+    var pathQ = resultPath
+    print(title + s" from $start to $end: ")
+    while (!pathQ.isEmpty) {
+      print(pathQ.peek + " ")
+      pathQ = pathQ.pop
+    }
+    println()
   }
 
-  pathQ = bfsTraversal_imperativeStyle(graph1_neighboursOf)(4, 6)
-  println("Path from 4 to 6:")
-  while (!pathQ.isEmpty) {
-    println(pathQ.peek)
-    pathQ = pathQ.pop
-  }
+  val imperativeBFS = bfsTraversal_imperativeStyle(graph1_neighboursOf)_
+  val functionalBFS = bfsTraversal_functionalStyle(graph1_neighboursOf)_
+  traceBFS("imperativeBFS", imperativeBFS, 1, 6)
+  traceBFS("functionalBFS", imperativeBFS, 1, 6)
+  println()
+  traceBFS("imperativeBFS", imperativeBFS, 4, 6)
+  traceBFS("functionalBFS", imperativeBFS, 4, 6)
 }
