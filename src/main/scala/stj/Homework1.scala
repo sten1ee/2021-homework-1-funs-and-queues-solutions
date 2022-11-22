@@ -133,22 +133,48 @@ object Homework1 extends App {
   }
 
   def bfsTraversal_imperativeStyle(neighbours: Int => List[Int])(start: Int, end: Int): Queue[Int] = {
-    var q = Queue(start)
+    var resultQ = Queue(start)
     if (start != end) {
+      var workQ = resultQ
       val enquedNodes = scala.collection.mutable.Set(start)
-      while (!q.isEmpty) {
-        val node = q.peek
+      while (!workQ.isEmpty) {
+        val node = workQ.peek
+        workQ = workQ.pop
         for (nextNode <- neighbours(node)) {
           if (!enquedNodes.contains(nextNode)) {
-            q = q.push(nextNode)
+            workQ = workQ.push(nextNode)
+            resultQ = resultQ.push(nextNode)
             enquedNodes += nextNode
             if (nextNode == end)
-              return q
+              return resultQ
           }
         }
       }
     }
-    q
+    resultQ
   }
 
+  def graph1_neighboursOf(node: Int): List[Int] = node match {
+    case 1 => List(2, 5, 8)
+    case 2 => List(1, 3, 6)
+    case 3 => List(2, 4)
+    case 4 => List(3)
+    case 5 => List(6)
+    case 6 => List(7)
+    case 8 => List(9)
+  }
+
+  var pathQ = bfsTraversal_imperativeStyle(graph1_neighboursOf)(1, 6)
+  println("Path from 1 to 6:")
+  while (!pathQ.isEmpty) {
+    println(pathQ.peek)
+    pathQ = pathQ.pop
+  }
+
+  pathQ = bfsTraversal_imperativeStyle(graph1_neighboursOf)(4, 6)
+  println("Path from 4 to 6:")
+  while (!pathQ.isEmpty) {
+    println(pathQ.peek)
+    pathQ = pathQ.pop
+  }
 }
