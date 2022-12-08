@@ -105,7 +105,8 @@ object Homework1 extends App {
     def peek: T = element
 
     def push[S>:T](a: S): Queue[S] = new QueueNode[S](element, restQ.push(a))
-
+// 1 -> 2 -> 3
+// 1 -> 2 -> 3 -> 4
     def pop: Queue[T] = restQ
 
     def isEmpty: Boolean = false
@@ -117,10 +118,7 @@ object Homework1 extends App {
     def empty[T]: Queue[T] = EmptyQueue
 
     def apply[T](xs: T*): Queue[T] = {
-      var qBuilder: Queue[T] = EmptyQueue
-      for (x <- xs.reverse)
-        qBuilder = new QueueNode[T](x, qBuilder)
-      qBuilder
+      xs.reverse.foldLeft[Queue[T]](Queue.empty)((acc, element) => new QueueNode[T](element, acc))
     }
   }
 
@@ -203,4 +201,12 @@ object Homework1 extends App {
   println()
   traceBFS("imperativeBFS", imperativeBFS, 4, 6)
   traceBFS("functionalBFS", imperativeBFS, 4, 6)
+
+  val accounts = List(
+                    List(1, 2, 3),
+                    List(5, 5, 5),
+                    List(3, 1, 4)
+                 )
+  def maximumWealth(accounts: List[List[Int]]) = accounts.map(_.sum).max
+  println(maximumWealth(accounts))
 }
